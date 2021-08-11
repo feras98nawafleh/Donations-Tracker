@@ -52,3 +52,8 @@ function updateStorage() {
 }
 updateStorage();
 
+let clear = document.getElementById('clear');
+clear.onclick = function () {
+  table.clear();
+  localStorage('donators').clear();
+};
