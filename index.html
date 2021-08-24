@@ -4,34 +4,37 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donation Tracker</title>
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="reset.css">
-  <title>Donations Tracker</title>
 </head>
 <body>
-  <header>
-    <form action="" id="form">
-      <label for="name"></label>
-      <input type="text" name="name" id="name" autocomplete="off" required>
-      <label for="amount"></label>
-      <select id="amount" name="amount">
-        <option value="100">100</option>
-        <option value="300">300</option>
-        <option value="500">500</option>
-      </select>
-      <input type="submit" value="Submit Query">
+  <section>
+    <form id="form" action="">
+        <fieldset>
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name">
+        <label for="amounts">Amount</label>
+        <select name="amounts" id="amounts">
+          <option value="100">100</option>
+          <option value="300">300</option>
+          <option value="500">500</option>
+        </select>
+      </fieldset>
+      <button id="btn-submit" type="submit">Submit Query</button>
     </form>
-  </header>
+  </section>
   <main>
     <table id="table">
       <tr>
-        <th>Donator Name</th>
+        <th>Name</th>
         <th>Donation Amount</th>
         <th>Age</th>
       </tr>
     </table>
+    <footer>
+      <button id="btn-clear">Clear All</button>
+    </footer>
   </main>
-  <button id="clear">Clear Items</button>
+    <script src="app.js"></script>
 </body>
-<script src="app.js"></script>
 </html>

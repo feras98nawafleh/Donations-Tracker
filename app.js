@@ -1,59 +1,62 @@
+let donators = [];
 function Donator(name, amount, age) {
   this.name = name;
   this.amount = amount;
   this.age = age;
-
-  Donator.donators.push(this);
+  donators.push(this);
 }
-Donator.donators = [];
-
-const generateRandomAge = () => {
+function randomAge() {
   return Math.floor(Math.random() * (60 - 20 + 1) + 20);
-};
+}
 
 let form = document.getElementById('form');
-let donatorName = document.getElementById('name');
-let donationAmount = document.getElementById('amount');
-
-form.onsubmit = function addDonation(e) {
+form.addEventListener('submit', onSubmit);
+function onSubmit(e) {
   e.preventDefault();
-  let name = donatorName.value;
-  let amount = JSON.parse(donationAmount.value);
-  let age = generateRandomAge();
-  new Donator(name, amount, age);
-  localStorage.setItem('donators', JSON.stringify(Donator.donators));
-  addStorage();
-};
-
-function addStorage() {
-  localStorage.setItem('donators', JSON.stringify(Donator.donators));
+  let name = e.target.name.value;
+  let amount = JSON.parse(e.target.amounts.value);
+  let age = randomAge();
+  let newDonator = new Donator(name, amount, age);
+  newDonator.renderBody();
+  createStorage();
 }
-// addStorage();
-let table = document.getElementById('table');
-let generateTableBody = function () {
-  for (let i = 0; i < localStorage.getItem('donators').length; i++) {
-    let tr = document.createElement('tr');
-    table.append(tr);
-    let td1 = document.createElement('td');
-    let td2 = document.createElement('td');
-    let td3 = document.createElement('td');
-    tr.appendChild(td1);
-    tr.appendChild(td2);
-    tr.appendChild(td3);
-    td1.innerText = localStorage.getItem('donators')[i].name;
-    td2.innerText = localStorage.getItem('donators')[i].amount;
-    td3.innerText = localStorage.getItem('donators')[i].age;
-  }
-};
-generateTableBody();
-function updateStorage() {
+function createStorage() {
+  localStorage.setItem('donators', JSON.stringify(donators));
+}
+function getStorage() {
   let data = JSON.parse(localStorage.getItem('donators'));
-  Donator.donators = data;
+  if (data !== null) {
+    for (let i = 0; i < data.length; i++) {
+      new Donator(data[i].name, data[i].age, data[i].age);
+    }
+  }
 }
-updateStorage();
+getStorage();
 
-let clear = document.getElementById('clear');
-clear.onclick = function () {
-  table.clear();
-  localStorage('donators').clear();
+let table = document.getElementById('table');
+Donator.prototype.renderBody = function () {
+  let tr = document.createElement('tr');
+  table.appendChild(tr);
+
+  let td1 = document.createElement('td');
+  td1.innerText = this.name;
+  tr.appendChild(td1);
+
+  let td2 = document.createElement('td');
+  td2.innerText = this.amount;
+  tr.appendChild(td2);
+
+  let td3 = document.createElement('td');
+  td3.innerText = this.age;
+  tr.appendChild(td3);
 };
+donators.forEach(donator => {
+  donator.renderBody();
+});
+
+let btnClear = document.getElementById('btn-clear');
+btnClear.addEventListener('click', clearAll);
+function clearAll() {
+  localStorage.clear('donators');
+  location.reload();
+}
